@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Generator</title>
+    <script src="qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh; /* Adjust this value as needed to center the QR code vertically */
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        #qrcode {
+            margin: 20px auto;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3e9143;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <div>
+        <label for="text">Enter Text:</label>
+        <br>
+        <input type="text" id="text">
+    </div>
+    <button onclick="generateQRCode()">Generate</button>
+    <button onclick="resetQRCode()">Reset</button>
+    <button onclick="downloadQRCode()">Download QR Code</button>
+    <div class="container">
+        <div id="qrcode"></div>
+    </div>
+
+    <script>
+        let qrCode;
+
+        function generateQRCode() {
+            const text = document.getElementById("text").value;
+            if (text.trim() !== "") {
+                qrCode = new QRCode(document.getElementById("qrcode"), text);
+            }
+        }
+
+        function resetQRCode() {
+            document.getElementById("text").value = "";
+            document.getElementById("qrcode").innerHTML = "";
+        }
+
+        function downloadQRCode() {
+            if (qrCode) {
+                const qrCanvas = document.querySelector("#qrcode canvas");
+                const downloadLink = document.createElement("a");
+                downloadLink.href = qrCanvas.toDataURL("image/png");
+                downloadLink.download = "qrcode.png";
+                downloadLink.click();
+            }
+        }
+    </script>
+</body>
+</html>
